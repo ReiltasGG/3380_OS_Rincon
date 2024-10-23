@@ -38,8 +38,34 @@ Scheduling Diagram for CPU 1: A(2), B(4), C(3), Idle(1), A(2), Idle(3),
 
 ## HW2
 
-The second assignment involves a client-server model, where the client sends data to the server, where it's processed, then returns it to the client to print.
+
+The server program:
+The user will execute this program using the following syntax:
+./exec_filename port_no
+where exec_filename is the name of your executable file and port_no is the port number to create the socket. The
+port number will be available to the server program as a command-line argument.
+The server program does not receive any information from STDIN and does not print any messages to STDOUT.
+The server program executes the following task:
+◦ Receive multiple requests from the client program using sockets. Therefore, the server program creates
+a child process per request to handle these requests simultaneously. For this reason, the parent process
+must handle zombie processes by implementing the fireman() function call (unless you can determine
+the number of requests the server program receives from the client program).
+Each child process executes the following tasks:
+1. First, receive the input with the scheduling information of a CPU from the client program.
+2. Next, use the incremental rate monotonic algorithm 
+3. Finally, return the calculated values to the client program using sockets.
+
+The client program:
+The user will execute this program using the following syntax:
+./exec_filename hostname port_no < input_filename
+where exec_filename is the name of your executable file, hostname is the address where the server program is
+located, port_no is the port number used by the server program, and input_filename is the name of the input file.
+The hostname and the port number will be available to the client as command-line arguments.
+The client program receives from STDIN (using input redirection) n lines (where n is the number of input strings).
+Each line from the input represents the scheduling information of a CPU in a multiprocessor platform
 
 ## HW3
 
-The third assignmnet uses mutex semaphors to produce the Rate Monolithic Scheduling Diagram.
+For this assignment, you will modify your solution for programming assignment 1 to comply with the restrictions explained below.
+
+Using pthread_join or sleep to synchronize your threads is not allowed (you must use pthread_join to guarantee that the parent thread waits for all its child threads to end before ending its execution). A penalty of 100% will be applied to submissions using the previous system calls to synchronize the child threads. You cannot use different memory addresses to pass the information from the parent thread to the child threads. You must use the output statement format based on the example above.
